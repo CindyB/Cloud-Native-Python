@@ -38,7 +38,6 @@ def add_user(new_user):
         conn.commit()
         return "Success"
     conn.close()
-    return jsonify(a_dict)
 
 def list_user(user_id):
     conn = sqlite3.connect('mydb.db')

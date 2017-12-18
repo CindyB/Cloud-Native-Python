@@ -7,11 +7,11 @@ import sqlite3
 
 app = Flask(__name__)
 
+
 def add_tweet(new_tweets):
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-
     cursor = conn.cursor()
+
     cursor.execute("SELECT * FROM users WHERE username=? ", (new_tweets['username'],))
     data = cursor.fetchall()
 
@@ -26,9 +26,8 @@ def add_tweet(new_tweets):
 
 def add_user(new_user):
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-
     cursor = conn.cursor()
+
     cursor.execute("SELECT * FROM users WHERE username=? or emailid=?",(new_user['username'],new_user['email']))
     data = cursor.fetchall()
     if len(data) != 0:
@@ -43,9 +42,8 @@ def add_user(new_user):
 
 def list_user(user_id):
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-    
     cursor = conn.cursor()
+
     cursor.execute("SELECT * FROM users where id=?",(user_id,))
     data = cursor.fetchall()
     if len(data) == 0:
@@ -62,8 +60,6 @@ def list_user(user_id):
 
 def list_users():
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-
     api_list=[]
     cursor = conn.execute("SELECT username, full_name, emailid, password, id from users")
 
@@ -82,10 +78,8 @@ def list_users():
 def list_tweet(user_id):
     print (user_id)
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-
-    api_list=[]
     cursor = conn.cursor()
+
     cursor.execute("SELECT * FROM tweets WHERE id=?", (user_id,))
     data = cursor.fetchall()
     print(data)
@@ -104,11 +98,9 @@ def list_tweet(user_id):
 
 def list_tweets():
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
-
     api_list=[]
-    cursor = conn.execute("SELECT username, body, tweet_time, id FROM tweets")
 
+    cursor = conn.execute("SELECT username, body, tweet_time, id FROM tweets")
     data = cursor.fetchall()
     if data != 0:
         for row in cursor:
@@ -125,8 +117,8 @@ def list_tweets():
 
 def del_user(del_user):
     conn = sqlite3.connect('mydb.db')
-    print("Opened database successfully");
     cursor = conn.cursor()
+
     cursor.execute("SELECT * FROM users WHERE username=? ", (del_user,))
     data = cursor.fetchall()
     print ("Data", data)
@@ -139,8 +131,8 @@ def del_user(del_user):
 
 def upd_user(user):
     conn = sqlite3.connect('mydb.db')
-    print ("Opened database successfully");
     cursor=conn.cursor()
+
     cursor.execute("SELECT * from users where id=? ",(user['id'],))
     data = cursor.fetchall()
     print (data)
@@ -151,7 +143,6 @@ def upd_user(user):
         for i in key_list:
             if i != "id":
                 print (user, i)
-                # cursor.execute("UPDATE users set {0}=? where id=? ", (i, user[i], user['id']))
                 cursor.execute("""UPDATE users SET {0} = ? WHERE id = ?""".format(i), (user[i], user['id']))
                 conn.commit()
     return "Success"
@@ -172,8 +163,6 @@ def update_user(user_id):
 @app.route("/api/v1/info")
 def home_index():
     conn = sqlite3.connect('mydb.db')
-    print ("Opened database successfully");
-
     api_list=[]
     cursor = conn.execute("SELECT buildtime, version, methods, links from apirelease")
 

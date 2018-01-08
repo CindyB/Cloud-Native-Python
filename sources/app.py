@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask import abort
+from flask import abort, render_template
 from flask import make_response, url_for
 import json
 from time import gmtime, strftime
@@ -221,6 +221,10 @@ def delete_user():
         abort(400)
     user = request.json['username']
     return jsonify({'status' : del_user(user)}), 200
+
+@app.route('/adduser')
+def adduser():
+    return render_template('adduser.html')
 
 @app.errorhandler(400)
 def invalid_request(error):

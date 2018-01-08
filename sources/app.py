@@ -1,12 +1,14 @@
-from flask import Flask, request, jsonify
-from flask import abort, render_template
+from flask import Flask, render_template, request, jsonify, redirect, session
+from flask import abort
+from flask_cors import CORS, cross_origin
 from flask import make_response, url_for
 import json
 from time import gmtime, strftime
 import sqlite3
-from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.secret_key = 'F12Zr47j\3yX R~X@H!jmM]Lwf/,?KT'
 CORS(app)
 
 def add_tweet(new_tweets):
@@ -230,6 +232,23 @@ def adduser():
 @app.route('/addtweets')
 def addtweetjs():
     return render_template('addtweets.html')
+
+@app.route('/')
+def main():
+    return render_template('main.html')
+
+@app.route('/addname')
+def addname():
+    if request.args.get('yourname'):
+        session['name'] = request.args.get('yourname')
+        return redirect(url_for('main'))
+    else:
+        return render_template('addname.html', session=session)
+
+@app.route('/clear')
+def clearsession():
+    session.clear()
+    return redirect(url_for('main'))
 
 @app.errorhandler(400)
 def invalid_request(error):

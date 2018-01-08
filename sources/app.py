@@ -250,6 +250,13 @@ def clearsession():
     session.clear()
     return redirect(url_for('main'))
 
+@app.route('/set_cookie')
+def cookie_insertion():
+    redirect_to_main = redirect('/')
+    response = app.make_response(redirect_to_main)
+    response.set_cookie('cookie_name',value='values')
+    return response
+
 @app.errorhandler(400)
 def invalid_request(error):
     return make_response(jsonify({'error':'Bad request'}),400)

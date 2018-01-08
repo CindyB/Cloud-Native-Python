@@ -226,6 +226,10 @@ def delete_user():
 def adduser():
     return render_template('adduser.html')
 
+@app.route('/addtweets')
+def addtweetjs():
+    return render_template('addtweets.html')
+
 @app.errorhandler(400)
 def invalid_request(error):
     return make_response(jsonify({'error':'Bad request'}),400)

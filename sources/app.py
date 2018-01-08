@@ -4,9 +4,10 @@ from flask import make_response, url_for
 import json
 from time import gmtime, strftime
 import sqlite3
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
+CORS(app)
 
 def add_tweet(new_tweets):
     conn = sqlite3.connect('mydb.db')
